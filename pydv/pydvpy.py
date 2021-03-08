@@ -435,7 +435,7 @@ def read(fname, gnu=False, xcol=0, verbose=False, pattern=None, matches=None):
     :param matches: optional, maximum number of times to match pattern, if specified
     :type matches: int
     :returns: list -- the list of curves from the file matching pattern, if specified
-    
+
     """
     curvelist = list()
     regex = None
@@ -511,14 +511,38 @@ def read(fname, gnu=False, xcol=0, verbose=False, pattern=None, matches=None):
                 curvename = line.strip()[1:]
                 curvename = curvename.strip()
 
+                # Attempt to split the curvename into y-label and x-label if the
+                # name follows the vs/vs. convention:
+                # y_label vs x_label
+                # y_label vs. x_label
+                labels = curvename.split(' vs ')
+                if len(labels) == 2:
+                    ylabel = labels[0].strip()
+                    xlabel = labels[1].strip()
+                else:
+                    labels = curvename.split(' vs. ')
+                    if len(labels) == 2:
+                        ylabel = labels[0].strip()
+                        xlabel = labels[1].strip()
+                    else:
+                        xlabel = ''
+                        ylabel = ''
+
                 if regex is not None:
                     if regex.search(curvename) is not None:
                         matchcount += 1
                         current = curve.Curve(fname, curvename)
+                        current.xlabel = xlabel
+                        current.ylabel = ylabel
+                        current.title = curvename
                     else:
                         current = None
                 else:
                     current = curve.Curve(fname, curvename)
+                    current.xlabel = xlabel
+                    current.ylabel = ylabel
+                    current.title = curvename
+
             elif line.strip().lower() == 'end':
                 pass
             else:
@@ -536,7 +560,7 @@ def read(fname, gnu=False, xcol=0, verbose=False, pattern=None, matches=None):
                             dim = 'skip'
                         elif dim == 'skip':
                             dim = 'x'
-
+            
         if current is not None:
             if current.drawstyle != 'default':
                 current.drawstyle = 'default'
