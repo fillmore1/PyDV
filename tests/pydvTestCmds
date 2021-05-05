@@ -1,12 +1,14 @@
 
 
 menu
-# Test the output from menu
+# Test the text output
 
 
 L1 a b 
+# Test the text output
 L2 a b  3.0 5.5
-del c d
+# Test the text output
+
 abs a
 color a blue
 color a red
