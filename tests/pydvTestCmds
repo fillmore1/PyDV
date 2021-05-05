@@ -1,5 +1,5 @@
-rd /Users/rusu1/pydv/tests/testData.txt
-rd 0 /Users/rusu1/pydv/tests/testData.gnu
+
+
 debug on
 debug off
 debug on
