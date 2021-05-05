@@ -1,12 +1,9 @@
 
 
-debug on
-debug off
-debug on
 menu
-cur 1 2
-erase
-cur 1 2
+# Test the output from menu
+
+
 L1 a b 
 L2 a b  3.0 5.5
 del c d
